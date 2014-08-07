@@ -27,8 +27,10 @@
 		public static function requireDirContent($dir)
 		{
 			foreach(new \DirectoryIterator($dir) as $file)
-				if( ! $file->isDot() && ! $file->isDir())
+			{
+				if( ! $file->isDot() && ! $file->isDir() && $file->getExtension() === 'php')
 					require_once $file->getPathname();
+			}
 		}
 
 		protected static function _autoLoad()
