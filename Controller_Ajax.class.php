@@ -1,5 +1,7 @@
 <?php
 	namespace Eliya;
+
+	require_once('Controller.class.php');
 	
 	abstract class Controller_Ajax extends Controller
 	{

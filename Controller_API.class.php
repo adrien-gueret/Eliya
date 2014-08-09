@@ -1,6 +1,8 @@
 <?php
 	namespace Eliya;
-	
+
+	require_once('Controller_Ajax.class.php');
+
 	abstract class Controller_API extends Controller_Ajax
 	{
 		const DEFAULT_LIMIT		=	20;
