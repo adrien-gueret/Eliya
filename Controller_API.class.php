@@ -1,9 +1,7 @@
 <?php
 	namespace Eliya;
 
-	var_dump('Before require');
 	require_once('Controller_Ajax.class.php');
-	var_dump('After require');
 
 	abstract class Controller_API extends Controller_Ajax
 	{

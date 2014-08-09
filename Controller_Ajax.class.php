@@ -1,8 +1,6 @@
 <?php
 	namespace Eliya;
 
-	var_dump('Required');
-
 	require_once('Controller.class.php');
 	
 	abstract class Controller_Ajax extends Controller
