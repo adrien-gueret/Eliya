@@ -1,7 +1,7 @@
 <?php
 	namespace Eliya;
 
-	var_dump('included');
+	var_dump('Required');
 
 	require_once('Controller.class.php');
 	
