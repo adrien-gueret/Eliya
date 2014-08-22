@@ -178,13 +178,22 @@
 						$className	.=	$name . '#';
 
 					$className	=	explode('#', substr($className, 0, -1));
-					$action			=	array_pop($className);
-					$className	=	join('_', $className);
+
+					if(count($className) > 1)
+					{
+						$action		=	array_pop($className);
+						$className	=	join('_', $className);
+					}
+					else
+						$className	=	current($className);
 
 					if( ! class_exists($className))
 					{
+						if(empty($action))
+							$action	=	'index';
+
 						$className	.=	empty($className) ? $action : '_' . $action;
-						$action			=	'index';
+						$action		=	'index';
 					}
 
 					if(class_exists($className))
