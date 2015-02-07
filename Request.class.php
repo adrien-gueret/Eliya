@@ -214,19 +214,32 @@
 				}
 			}
 
+			$error_404_message	=	'Controller "' . $className . '" does not exist.';
+
 			if(!class_exists($className))
 			{
-				$this->_response->error('Controller "' . $className . '" does not exist.', 404);
+				$this->_response->error($error_404_message, 404);
 				return $this;
 			}
 
+			$reflectionClass = new \ReflectionClass($className);
+
+			//We can't directly go to abstract controllers
+			if($reflectionClass->isAbstract())
+			{
+				$this->_response->error($error_404_message, 404);
+				return $this;
+			}
+
+			//Last chance for action to be defined
+			if(empty($action))
+				$action	=	'index';
+
 			$method	=	$type . '_' . $action;
 
-			if(!method_exists($className, $method))
+			if( ! method_exists($className, $method))
 			{
 				//If we want to access an API controller, we can redirect to index
-				$reflectionClass = new \ReflectionClass($className);
-
 				if(!$reflectionClass->isSubclassOf('Eliya\Controller_API'))
 				{
 					$this->_response->error('Controller "' . $className . '" does not have method "' . $method . '".', 405);
