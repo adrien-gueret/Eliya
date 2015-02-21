@@ -285,7 +285,9 @@
 						$parameters[]	=	$this->_get_params[$param->name];
 					else if(isset($this->_put_params[$param->name]))
 						$parameters[]	=	$this->_put_params[$param->name];
-					else if( ! $param->isOptional())
+					else if($param->isOptional())
+						$parameters[]	=	$param->getDefaultValue();
+					else
 						$parameters[]	=	null;
 				}
 
