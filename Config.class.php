@@ -12,25 +12,15 @@
 		{
 			if( ! isset(self::$configurations[$name]))
 			{
-				$path	=	PROJECT_ROOT . 'application' . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . $name . '.';
-				$ext		=	null;
+				$fullPath = static::exists($name);
 				
-				foreach(self::$extensions as $extension)
+				if($fullPath === null)
+					throw new \Exception('Configuration file "' . $name . '" not found.');
+
+				switch($fullPath["ext"])
 				{
-					if(file_exists($path.$extension))
-					{
-						$path	.=	$extension;
-						$ext	=	$extension;
-						break;
-					}
-				}
-		
-				switch($ext)
-				{
-					case 'json': $this->config	=	json_decode(file_get_contents($path), true); break;
-					case 'php': $this->config	=	include $path; break;
-							
-					default: throw new \Exception('Configuration file "' . $name . '" not found.');
+					case 'json': $this->config	=	json_decode(file_get_contents($fullPath["path"]), true); break;
+					case 'php': $this->config	=	include $fullPath["path"]; break;
 				}
 				
 				self::$configurations[$name]	=	$this->config;
@@ -43,5 +33,24 @@
 		{
 			return	isset($this->config[$prop]) ? $this->config[$prop] : null;
 		}
+
+		public static function exists($name)
+		{
+			$path	=	PROJECT_ROOT . 'application' . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . $name . '.';
+			$ext		=	null;
+			
+			foreach(self::$extensions as $extension)
+			{
+				if(file_exists($path.$extension))
+				{
+					$path	.=	$extension;
+					$ext	=	$extension;
+					return array('path' => $path, 'ext' => $ext);
+				}
+			}
+			
+			return null;
+		}
+
 	}
 ?>
