@@ -104,7 +104,13 @@
 			$this->_uri	=	$uri;
 
 			if(empty(self::$routing))
+			{
 				self::$routing	=	Config('main')->ROUTING;
+
+				// Add routes from the routing config file if it exists
+				if(Config::exists('routing') !== null)
+					self::$routing = array_replace_recursive(self::$routing, Config('routing')->ROUTING);
+			}
 
 			if(strpos($this->_uri, self::$routing['BASE_URL']) !== 0)
 			{
