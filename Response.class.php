@@ -30,6 +30,9 @@ class Response
 				$this->set($this->_error);
 			else if($this->_redirectOnError)
 			{
+				if(Config('main')->ERROR !== null && Config('main')->ERROR['LOGGING'] === true)
+					error_log("Eliya error - " . $this->_status . " - Request: ". $_SERVER['REQUEST_URI'], Config('main')->ERROR['LOG_TO']); 
+
 				$errorClassName	=	'Error_' . $this->_status;
 
 				if(class_exists($errorClassName))
